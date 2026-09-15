@@ -3,401 +3,180 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Rubik Speed Timer</title>
 
 <style>
-
 * {
   box-sizing: border-box;
 }
 
-html, body {
+body {
   margin: 0;
-  padding: 0;
-  background: #08080c;
+  background: #050505;
   color: white;
   font-family: Arial, sans-serif;
-}
-
-body {
-  min-height: 100vh;
+  user-select: none;
 }
 
 .app {
-  width: 94%;
   max-width: 700px;
   margin: auto;
-  padding: 20px 0 80px;
+  padding: 25px 18px 80px;
+  text-align: center;
 }
-
-/* =========================
-   TITLE
-========================= */
 
 h1 {
-  text-align: center;
   letter-spacing: 4px;
-  margin: 5px 0 20px;
-}
-
-/* =========================
-   SCRAMBLE
-========================= */
-
-.scramble {
-  text-align: center;
-  background: #121218;
-  border-radius: 12px;
-  padding: 14px;
-  font-size: 19px;
-  font-weight: bold;
-  line-height: 1.5;
   margin-bottom: 15px;
 }
 
-/* =========================
-   INSPECTION
-========================= */
-
-#inspection {
-  text-align: center;
+#scramble {
   font-size: 20px;
-  color: #aaa;
-  min-height: 28px;
-}
-
-/* =========================
-   TIMER AREA
-   CHỈ KHU VỰC NÀY
-   NHẬN INPUT
-========================= */
-
-#timerArea {
-  width: 100%;
-
-  min-height: 250px;
-
-  display: flex;
-  flex-direction: column;
-
-  justify-content: center;
-  align-items: center;
-
-  user-select: none;
-  -webkit-user-select: none;
-
-  touch-action: manipulation;
-
-  cursor: pointer;
-}
-
-#timer {
-  font-size: clamp(90px, 24vw, 170px);
-
-  font-weight: 700;
-
-  line-height: 1;
-
-  font-variant-numeric: tabular-nums;
-
-  letter-spacing: -5px;
-}
-
-#status {
-  margin-top: 20px;
-
-  color: #777;
-
-  font-size: 14px;
-}
-
-/* =========================
-   STATS
-========================= */
-
-.stats {
-  display: grid;
-
-  grid-template-columns: repeat(4, 1fr);
-
-  gap: 8px;
-
+  font-weight: bold;
+  min-height: 30px;
   margin: 10px 0 25px;
 }
 
-.stat {
-  background: #121218;
-
-  border-radius: 10px;
-
-  padding: 12px 5px;
-
-  text-align: center;
-}
-
-.stat-name {
-  color: #888;
-
-  font-size: 13px;
-}
-
-.stat-value {
-  font-size: 20px;
-
-  font-weight: bold;
-
-  margin-top: 5px;
-}
-
-/* =========================
-   SOLVES
-========================= */
-
-.solves-title {
+#timer {
+  width: 100%;
+  min-height: 180px;
   display: flex;
-
-  justify-content: space-between;
-
   align-items: center;
+  justify-content: center;
 
-  margin-bottom: 10px;
+  font-size: clamp(90px, 22vw, 170px);
+  font-weight: bold;
+  line-height: 1;
+
+  cursor: pointer;
+  touch-action: manipulation;
 }
 
-.solves-title h2 {
-  margin: 0;
+#timer.inspection-red {
+  color: #ff3030;
 }
 
-#clearAll {
-  border: none;
-
-  background: #292930;
-
-  color: white;
-
-  padding: 8px 12px;
-
-  border-radius: 8px;
+#timer.inspection-yellow {
+  color: #ffd21f;
 }
 
-/* =========================
-   SOLVE CARD
-========================= */
+#timer.ready {
+  color: #22dd55;
+}
+
+#timer.dnf {
+  color: #ff3030;
+}
+
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin: 20px 0 30px;
+  font-size: 18px;
+}
+
+h2 {
+  text-align: left;
+  margin-top: 30px;
+}
 
 .solve {
-  background: #121218;
-
+  background: #111;
   border-radius: 12px;
-
-  padding: 12px;
-
-  margin-bottom: 9px;
+  padding: 14px;
+  margin: 10px 0;
+  text-align: left;
 }
 
-.solve-main {
+.solve-top {
   display: flex;
-
   justify-content: space-between;
-
   align-items: center;
-}
-
-.solve-number {
-  color: #777;
 }
 
 .solve-time {
-  font-size: 23px;
-
+  font-size: 24px;
   font-weight: bold;
 }
 
-.solve-buttons {
+.solve-scramble {
+  color: #aaa;
+  font-size: 14px;
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+.buttons {
   display: flex;
-
   gap: 7px;
-
   margin-top: 10px;
 }
 
-.solve-buttons button {
-  flex: 1;
+button {
+  border: 0;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-  border: none;
+.plus {
+  background: #e0a800;
+}
 
-  border-radius: 7px;
-
-  padding: 8px;
-
+.dnf-btn {
+  background: #d33;
   color: white;
-
-  background: #292930;
-
-  font-size: 14px;
 }
 
-.solve-scramble {
-  color: #888;
-
-  font-size: 12px;
-
-  line-height: 1.5;
-
-  margin-top: 9px;
+.delete {
+  background: #333;
+  color: white;
 }
 
-.empty {
-  text-align: center;
-
-  color: #555;
-
-  padding: 30px 0;
+#clear {
+  width: 100%;
+  margin-top: 15px;
+  background: #222;
+  color: white;
 }
 
-/* =========================
-   MINI CUBE
-   GÓC TRÁI DƯỚI
-========================= */
-
-#miniCube {
+/* MINI CUBE */
+#cube {
   position: fixed;
+  left: 12px;
+  bottom: 12px;
 
-  left: 10px;
-  bottom: 10px;
+  width: 105px;
+  height: 105px;
 
-  width: 118px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
 
-  padding: 7px;
+  gap: 2px;
+  padding: 3px;
 
-  background: rgba(15,15,20,0.94);
-
-  border: 1px solid #292930;
-
-  border-radius: 10px;
-
-  z-index: 50;
+  background: #222;
+  border-radius: 8px;
 
   pointer-events: none;
 }
 
-.cube-net {
-  width: 104px;
-  height: 78px;
-
-  display: grid;
-
-  grid-template-columns: repeat(4, 25px);
-  grid-template-rows: repeat(3, 25px);
-
-  gap: 1px;
-}
-
-.face {
-  width: 25px;
-  height: 25px;
-
-  display: grid;
-
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-
-  gap: 1px;
-
-  background: #000;
-
-  padding: 1px;
-}
-
-.face.U {
-  grid-column: 2;
-  grid-row: 1;
-}
-
-.face.L {
-  grid-column: 1;
-  grid-row: 2;
-}
-
-.face.F {
-  grid-column: 2;
-  grid-row: 2;
-}
-
-.face.R {
-  grid-column: 3;
-  grid-row: 2;
-}
-
-.face.B {
-  grid-column: 4;
-  grid-row: 2;
-}
-
-.face.D {
-  grid-column: 2;
-  grid-row: 3;
-}
-
 .sticker {
-  width: 100%;
-  height: 100%;
-
-  border-radius: 1px;
+  border-radius: 2px;
+  border: 1px solid #111;
 }
 
-/* RUBIK COLORS */
-
-.white {
-  background: #eeeeee;
-}
-
-.yellow {
-  background: #ffd500;
-}
-
-.red {
-  background: #e53935;
-}
-
-.orange {
-  background: #ff8c00;
-}
-
-.blue {
-  background: #1976d2;
-}
-
-.green {
-  background: #20a447;
-}
-
-/* =========================
-   MOBILE
-========================= */
-
-@media (max-width: 450px) {
-
-  .app {
-    width: 96%;
-  }
-
-  .stats {
-    gap: 5px;
-  }
-
-  .stat-value {
-    font-size: 18px;
-  }
-
-  #timerArea {
-    min-height: 220px;
-  }
-
-}
-
+.white  { background: white; }
+.yellow { background: #ffd900; }
+.green  { background: #18b957; }
+.blue   { background: #2674e8; }
+.red    { background: #e83232; }
+.orange { background: #ff8b18; }
 </style>
 </head>
-
 
 <body>
 
@@ -405,692 +184,424 @@ h1 {
 
   <h1>SPEED TIMER</h1>
 
-  <!-- SCRAMBLE -->
+  <div id="scramble"></div>
 
-  <div class="scramble" id="scramble">
-    R U R' F2 D L' U2
-  </div>
-
-
-  <!-- INSPECTION -->
-
-  <div id="inspection"></div>
-
-
-  <!-- TIMER AREA -->
-
-  <div id="timerArea">
-
-    <div id="timer">
-      0.00
-    </div>
-
-    <div id="status">
-      Chạm giữ vùng này để bắt đầu
-    </div>
-
-  </div>
-
-
-  <!-- STATS -->
+  <div id="timer">0.00</div>
 
   <div class="stats">
-
-    <div class="stat">
-      <div class="stat-name">Solves</div>
-      <div class="stat-value" id="count">0</div>
-    </div>
-
-    <div class="stat">
-      <div class="stat-name">PB</div>
-      <div class="stat-value" id="pb">--</div>
-    </div>
-
-    <div class="stat">
-      <div class="stat-name">Ao5</div>
-      <div class="stat-value" id="ao5">--</div>
-    </div>
-
-    <div class="stat">
-      <div class="stat-name">Ao12</div>
-      <div class="stat-value" id="ao12">--</div>
-    </div>
-
+    <span>Solves: <b id="count">0</b></span>
+    <span>PB: <b id="pb">--</b></span>
   </div>
 
-
-  <!-- HISTORY -->
-
-  <div class="solves-title">
-
-    <h2>Solves</h2>
-
-    <button id="clearAll">
-      Clear all
-    </button>
-
-  </div>
-
+  <h2>Solves</h2>
   <div id="solves"></div>
 
-</div>
-
-
-<!-- MINI CUBE -->
-
-<div id="miniCube">
-
-  <div class="cube-net">
-
-    <div class="face U" id="face-U"></div>
-
-    <div class="face L" id="face-L"></div>
-
-    <div class="face F" id="face-F"></div>
-
-    <div class="face R" id="face-R"></div>
-
-    <div class="face B" id="face-B"></div>
-
-    <div class="face D" id="face-D"></div>
-
-  </div>
+  <button id="clear">CLEAR ALL</button>
 
 </div>
 
+<div id="cube"></div>
 
 <script>
 
-/* =====================================================
+/* =========================
    SCRAMBLE
-===================================================== */
+========================= */
 
 const faces = ["R","L","U","D","F","B"];
-
-const modifiers = ["","'","2"];
+const suffixes = ["", "'", "2"];
 
 let currentScramble = "";
 
+function randomScramble() {
+  let result = [];
+  let lastFace = "";
 
-function generateScramble() {
+  while (result.length < 20) {
+    const face = faces[Math.floor(Math.random() * faces.length)];
 
-  let moves = [];
+    if (face === lastFace) continue;
 
-  let last = "";
+    const suffix =
+      suffixes[Math.floor(Math.random() * suffixes.length)];
 
-  while (moves.length < 20) {
-
-    const face =
-      faces[Math.floor(Math.random() * faces.length)];
-
-    if (face === last) continue;
-
-    const modifier =
-      modifiers[
-        Math.floor(Math.random() * modifiers.length)
-      ];
-
-    moves.push(face + modifier);
-
-    last = face;
+    result.push(face + suffix);
+    lastFace = face;
   }
 
-  currentScramble = moves.join(" ");
+  return result.join(" ");
+}
 
+function newScramble() {
+  currentScramble = randomScramble();
   document.getElementById("scramble").textContent =
     currentScramble;
-
-  updateCube();
-
 }
 
+newScramble();
 
-/* =====================================================
-   CUBE
-===================================================== */
 
-let cube;
+/* =========================
+   TIMER STATES
+========================= */
 
+const timer = document.getElementById("timer");
 
-function resetCube() {
-
-  cube = {
-
-    U: Array(9).fill("white"),
-    R: Array(9).fill("red"),
-    F: Array(9).fill("green"),
-    D: Array(9).fill("yellow"),
-    L: Array(9).fill("orange"),
-    B: Array(9).fill("blue")
-
-  };
-
-}
-
-
-function rotateFace(face) {
-
-  const old = [...cube[face]];
-
-  cube[face][0] = old[6];
-  cube[face][1] = old[3];
-  cube[face][2] = old[0];
-
-  cube[face][3] = old[7];
-  cube[face][4] = old[4];
-  cube[face][5] = old[1];
-
-  cube[face][6] = old[8];
-  cube[face][7] = old[5];
-  cube[face][8] = old[2];
-
-}
-
-
-function moveR() {
-
-  rotateFace("R");
-
-  const temp = [
-    cube.U[2],
-    cube.U[5],
-    cube.U[8]
-  ];
-
-  cube.U[2] = cube.F[2];
-  cube.U[5] = cube.F[5];
-  cube.U[8] = cube.F[8];
-
-  cube.F[2] = cube.D[2];
-  cube.F[5] = cube.D[5];
-  cube.F[8] = cube.D[8];
-
-  cube.D[2] = cube.B[6];
-  cube.D[5] = cube.B[3];
-  cube.D[8] = cube.B[0];
-
-  cube.B[6] = temp[0];
-  cube.B[3] = temp[1];
-  cube.B[0] = temp[2];
-
-}
-
-
-function moveL() {
-
-  rotateFace("L");
-
-  const temp = [
-    cube.U[0],
-    cube.U[3],
-    cube.U[6]
-  ];
-
-  cube.U[0] = cube.B[8];
-  cube.U[3] = cube.B[5];
-  cube.U[6] = cube.B[2];
-
-  cube.B[8] = cube.D[0];
-  cube.B[5] = cube.D[3];
-  cube.B[2] = cube.D[6];
-
-  cube.D[0] = cube.F[0];
-  cube.D[3] = cube.F[3];
-  cube.D[6] = cube.F[6];
-
-  cube.F[0] = temp[0];
-  cube.F[3] = temp[1];
-  cube.F[6] = temp[2];
-
-}
-
-
-function moveU() {
-
-  rotateFace("U");
-
-  const temp = cube.F.slice(0,3);
-
-  cube.F.splice(0,3,...cube.R.slice(0,3));
-
-  cube.R.splice(0,3,...cube.B.slice(0,3));
-
-  cube.B.splice(0,3,...cube.L.slice(0,3));
-
-  cube.L.splice(0,3,...temp);
-
-}
-
-
-function moveD() {
-
-  rotateFace("D");
-
-  const temp = cube.F.slice(6,9);
-
-  cube.F.splice(6,3,...cube.L.slice(6,9));
-
-  cube.L.splice(6,3,...cube.B.slice(6,9));
-
-  cube.B.splice(6,3,...cube.R.slice(6,9));
-
-  cube.R.splice(6,3,...temp);
-
-}
-
-
-function moveF() {
-
-  rotateFace("F");
-
-  const temp = [
-    cube.U[6],
-    cube.U[7],
-    cube.U[8]
-  ];
-
-  cube.U[6] = cube.L[8];
-  cube.U[7] = cube.L[5];
-  cube.U[8] = cube.L[2];
-
-  cube.L[2] = cube.D[0];
-  cube.L[5] = cube.D[1];
-  cube.L[8] = cube.D[2];
-
-  cube.D[0] = cube.R[6];
-  cube.D[1] = cube.R[3];
-  cube.D[2] = cube.R[0];
-
-  cube.R[0] = temp[0];
-  cube.R[3] = temp[1];
-  cube.R[6] = temp[2];
-
-}
-
-
-function moveB() {
-
-  rotateFace("B");
-
-  const temp = [
-    cube.U[0],
-    cube.U[1],
-    cube.U[2]
-  ];
-
-  cube.U[0] = cube.R[2];
-  cube.U[1] = cube.R[5];
-  cube.U[2] = cube.R[8];
-
-  cube.R[2] = cube.D[8];
-  cube.R[5] = cube.D[7];
-  cube.R[8] = cube.D[6];
-
-  cube.D[6] = cube.L[0];
-  cube.D[7] = cube.L[3];
-  cube.D[8] = cube.L[6];
-
-  cube.L[0] = temp[2];
-  cube.L[3] = temp[1];
-  cube.L[6] = temp[0];
-
-}
-
-
-function applyMove(move) {
-
-  const face = move[0];
-
-  let turns = 1;
-
-  if (move.includes("2")) {
-    turns = 2;
-  }
-
-  if (move.includes("'")) {
-    turns = 3;
-  }
-
-  for (let i = 0; i < turns; i++) {
-
-    if (face === "R") moveR();
-    if (face === "L") moveL();
-    if (face === "U") moveU();
-    if (face === "D") moveD();
-    if (face === "F") moveF();
-    if (face === "B") moveB();
-
-  }
-
-}
-
-
-function updateCube() {
-
-  resetCube();
-
-  currentScramble
-    .split(" ")
-    .forEach(move => {
-
-      if (move) {
-        applyMove(move);
-      }
-
-    });
-
-  renderCube();
-
-}
-
-
-function renderCube() {
-
-  ["U","L","F","R","B","D"]
-    .forEach(face => {
-
-      const element =
-        document.getElementById("face-" + face);
-
-      element.innerHTML = "";
-
-      cube[face].forEach(color => {
-
-        const sticker =
-          document.createElement("div");
-
-        sticker.className =
-          "sticker " + color;
-
-        element.appendChild(sticker);
-
-      });
-
-    });
-
-}
-
-
-/* =====================================================
-   INSPECTION
-===================================================== */
-
-let inspectionRunning = false;
-
-let inspectionTimer = null;
+let state = "idle";
 
 let inspectionStart = 0;
+let inspectionInterval = null;
 
+let solveStart = 0;
+let solveInterval = null;
+
+let holding = false;
+
+
+/* =========================
+   DISPLAY
+========================= */
+
+function setTimerText(text) {
+  timer.textContent = text;
+}
+
+function resetTimerStyle() {
+  timer.className = "";
+}
+
+
+/* =========================
+   INSPECTION
+========================= */
 
 function startInspection() {
 
-  clearInterval(inspectionTimer);
+  if (state !== "idle") return;
 
-  inspectionRunning = true;
+  state = "inspection";
 
   inspectionStart = performance.now();
 
-  let lastSecond = 15;
+  timer.className = "inspection-red";
+  setTimerText("15");
 
-  document.getElementById("inspection").textContent =
-    "Inspection: 15";
-
-  inspectionTimer = setInterval(() => {
+  inspectionInterval = setInterval(() => {
 
     const elapsed =
       (performance.now() - inspectionStart) / 1000;
 
-    const remaining =
-      15 - Math.floor(elapsed);
+    const remaining = 15 - elapsed;
 
-    if (remaining !== lastSecond) {
+    if (remaining <= 0) {
 
-      lastSecond = remaining;
+      clearInterval(inspectionInterval);
 
-      if (remaining > 0) {
+      state = "dnf";
 
-        document.getElementById("inspection")
-          .textContent =
-          "Inspection: " + remaining;
+      timer.className = "dnf";
+      setTimerText("DNF");
 
-      }
+      addSolve("DNF");
 
+      setTimeout(() => {
+        resetForNextSolve();
+      }, 900);
+
+      return;
     }
 
-    if (elapsed >= 15) {
+    const seconds = Math.ceil(remaining);
 
-      clearInterval(inspectionTimer);
+    setTimerText(seconds);
 
-      inspectionRunning = false;
-
-      document.getElementById("inspection")
-        .textContent =
-        "DNF — inspection quá 15s";
-
-      document.getElementById("status")
-        .textContent =
-        "Chạm vùng timer để bắt đầu";
-
+    if (remaining <= 7) {
+      timer.className = "inspection-yellow";
+    } else {
+      timer.className = "inspection-red";
     }
 
   }, 50);
-
 }
 
 
-/* =====================================================
-   TIMER
-===================================================== */
+/* =========================
+   HOLD DURING INSPECTION
+========================= */
 
-let running = false;
+function holdTimer() {
 
-let ready = false;
+  if (state !== "inspection") return;
 
-let startTime = 0;
+  holding = true;
 
-let timerInterval = null;
+  timer.className = "ready";
+}
 
+function releaseTimer() {
 
-function startTimer() {
+  if (!holding) return;
 
-  if (running) return;
+  holding = false;
 
-  clearInterval(inspectionTimer);
+  if (state !== "inspection") return;
 
-  inspectionRunning = false;
+  clearInterval(inspectionInterval);
 
-  running = true;
+  state = "running";
 
-  ready = false;
+  solveStart = performance.now();
 
-  startTime = performance.now();
+  timer.className = "";
 
-  document.getElementById("inspection").textContent =
-    "";
-
-  document.getElementById("status").textContent =
-    "Đang chạy...";
-
-  timerInterval = setInterval(() => {
+  solveInterval = setInterval(() => {
 
     const elapsed =
-      (performance.now() - startTime) / 1000;
+      (performance.now() - solveStart) / 1000;
 
-    document.getElementById("timer").textContent =
-      elapsed.toFixed(2);
+    setTimerText(elapsed.toFixed(2));
 
   }, 10);
-
 }
 
 
-function stopTimer() {
+/* =========================
+   STOP SOLVE
+========================= */
 
-  if (!running) return;
+function stopSolve() {
 
-  running = false;
+  if (state !== "running") return;
 
-  clearInterval(timerInterval);
+  clearInterval(solveInterval);
 
   const finalTime =
-    (performance.now() - startTime) / 1000;
+    (performance.now() - solveStart) / 1000;
 
-  document.getElementById("timer").textContent =
-    finalTime.toFixed(2);
+  state = "idle";
+
+  setTimerText(finalTime.toFixed(2));
 
   addSolve(finalTime);
 
-  document.getElementById("status").textContent =
-    "Đang chuẩn bị scramble mới...";
+  updateStats();
 
   setTimeout(() => {
-
-    generateScramble();
-
-    document.getElementById("timer").textContent =
-      "0.00";
-
-    document.getElementById("status").textContent =
-      "Chạm giữ vùng timer để bắt đầu";
-
-    startInspection();
-
-  }, 300);
-
+    newScramble();
+    renderHistory();
+    resetCube();
+  }, 150);
 }
 
 
-/* =====================================================
-   CHỈ TIMER AREA NHẬN INPUT
-===================================================== */
+/* =========================
+   TIMER INPUT
+   CHỈ VÙNG TIMER
+========================= */
 
-const timerArea =
-  document.getElementById("timerArea");
+timer.addEventListener("pointerdown", (e) => {
 
+  e.preventDefault();
 
-/* DESKTOP */
+  if (state === "idle") {
 
-timerArea.addEventListener("mousedown", event => {
+    startInspection();
 
-  event.preventDefault();
+  } else if (state === "inspection") {
 
-  if (running) {
+    holdTimer();
 
-    stopTimer();
+  } else if (state === "running") {
 
-    return;
+    stopSolve();
 
   }
 
-  ready = true;
+});
 
-  document.getElementById("status").textContent =
-    "Thả ra để bắt đầu";
+timer.addEventListener("pointerup", (e) => {
+
+  e.preventDefault();
+
+  if (state === "inspection" && holding) {
+    releaseTimer();
+  }
+
+});
+
+timer.addEventListener("pointercancel", () => {
+
+  if (state === "inspection" && holding) {
+    releaseTimer();
+  }
 
 });
 
 
-timerArea.addEventListener("mouseup", event => {
+/* =========================
+   KEYBOARD SPACE
+========================= */
 
-  event.preventDefault();
+document.addEventListener("keydown", (e) => {
 
-  if (!running && ready) {
+  if (e.code !== "Space") return;
 
-    startTimer();
+  e.preventDefault();
+
+  if (e.repeat) return;
+
+  if (state === "idle") {
+
+    startInspection();
+
+  } else if (state === "inspection") {
+
+    holdTimer();
+
+  } else if (state === "running") {
+
+    stopSolve();
 
   }
 
-  ready = false;
+});
+
+document.addEventListener("keyup", (e) => {
+
+  if (e.code !== "Space") return;
+
+  e.preventDefault();
+
+  if (state === "inspection" && holding) {
+    releaseTimer();
+  }
 
 });
 
 
-/* MOBILE */
-
-timerArea.addEventListener("touchstart", event => {
-
-  event.preventDefault();
-
-  if (running) {
-
-    stopTimer();
-
-    return;
-
-  }
-
-  ready = true;
-
-  document.getElementById("status").textContent =
-    "Thả ra để bắt đầu";
-
-}, { passive: false });
-
-
-timerArea.addEventListener("touchend", event => {
-
-  event.preventDefault();
-
-  if (!running && ready) {
-
-    startTimer();
-
-  }
-
-  ready = false;
-
-}, { passive: false });
-
-
-/* SPACE */
-
-document.addEventListener("keydown", event => {
-
-  if (event.code !== "Space") return;
-
-  event.preventDefault();
-
-  if (running) {
-
-    stopTimer();
-
-    return;
-
-  }
-
-  ready = true;
-
-});
-
-
-document.addEventListener("keyup", event => {
-
-  if (event.code !== "Space") return;
-
-  event.preventDefault();
-
-  if (!running && ready) {
-
-    startTimer();
-
-  }
-
-  ready = false;
-
-});
-
-
-/* =====================================================
-   SOLVES
-===================================================== */
+/* =========================
+   HISTORY
+========================= */
 
 let solves =
-  JSON.parse(
-    localStorage.getItem("rubikSolves")
-  ) || [];
+  JSON.parse(localStorage.getItem("rubikSolves") || "[]");
 
+function addSolve(time) {
 
-function saveSolves() {
+  solves.unshift({
+    time: time,
+    scramble: currentScramble
+  });
+
+  localStorage.setItem(
+    "rubikSolves",
+    JSON.stringify(solves)
+  );
+
+  renderHistory();
+  updateStats();
+}
+
+function renderHistory() {
+
+  const container =
+    document.getElementById("solves");
+
+  container.innerHTML = "";
+
+  solves.forEach((solve, index) => {
+
+    const div = document.createElement("div");
+
+    div.className = "solve";
+
+    let displayTime;
+
+    if (solve.time === "DNF") {
+
+      displayTime = "DNF";
+
+    } else {
+
+      displayTime =
+        Number(solve.time).toFixed(2);
+
+    }
+
+    div.innerHTML = `
+      <div class="solve-top">
+
+        <span class="solve-time">
+          ${displayTime}
+        </span>
+
+        <span>
+          #${solves.length - index}
+        </span>
+
+      </div>
+
+      <div class="solve-scramble">
+        ${solve.scramble}
+      </div>
+
+      <div class="buttons">
+
+        <button class="plus">
+          +2
+        </button>
+
+        <button class="dnf-btn">
+          DNF
+        </button>
+
+        <button class="delete">
+          Delete
+        </button>
+
+      </div>
+    `;
+
+    div.querySelector(".plus").onclick = () => {
+
+      if (solve.time === "DNF") return;
+
+      solve.time =
+        Number(solve.time) + 2;
+
+      saveHistory();
+      renderHistory();
+      updateStats();
+
+    };
+
+    div.querySelector(".dnf-btn").onclick = () => {
+
+      solve.time = "DNF";
+
+      saveHistory();
+      renderHistory();
+      updateStats();
+
+    };
+
+    div.querySelector(".delete").onclick = () => {
+
+      solves.splice(index, 1);
+
+      saveHistory();
+      renderHistory();
+      updateStats();
+
+    };
+
+    container.appendChild(div);
+
+  });
+
+}
+
+function saveHistory() {
 
   localStorage.setItem(
     "rubikSolves",
@@ -1100,292 +611,123 @@ function saveSolves() {
 }
 
 
-function addSolve(time) {
-
-  solves.unshift({
-
-    time: time,
-
-    penalty: "",
-
-    scramble: currentScramble
-
-  });
-
-  saveSolves();
-
-  renderSolves();
-
-  updateStats();
-
-}
-
-
-function displayTime(solve) {
-
-  if (solve.penalty === "DNF") {
-
-    return "DNF";
-
-  }
-
-  let time = solve.time;
-
-  if (solve.penalty === "+2") {
-
-    time += 2;
-
-  }
-
-  return time.toFixed(2) +
-    (solve.penalty === "+2" ? "+" : "");
-
-}
-
-
-function renderSolves() {
-
-  const container =
-    document.getElementById("solves");
-
-  container.innerHTML = "";
-
-  if (solves.length === 0) {
-
-    container.innerHTML =
-      '<div class="empty">Chưa có solve nào</div>';
-
-    return;
-
-  }
-
-  solves.forEach((solve, index) => {
-
-    const div =
-      document.createElement("div");
-
-    div.className = "solve";
-
-    div.innerHTML = `
-
-      <div class="solve-main">
-
-        <span class="solve-number">
-          #${solves.length - index}
-        </span>
-
-        <span class="solve-time">
-          ${displayTime(solve)}
-        </span>
-
-      </div>
-
-      <div class="solve-buttons">
-
-        <button onclick="plusTwo(${index})">
-          +2
-        </button>
-
-        <button onclick="toggleDNF(${index})">
-          DNF
-        </button>
-
-        <button onclick="deleteSolve(${index})">
-          Xóa
-        </button>
-
-      </div>
-
-      <div class="solve-scramble">
-        ${solve.scramble}
-      </div>
-
-    `;
-
-    container.appendChild(div);
-
-  });
-
-}
-
-
-function plusTwo(index) {
-
-  if (solves[index].penalty === "DNF") {
-    return;
-  }
-
-  solves[index].penalty =
-    solves[index].penalty === "+2"
-      ? ""
-      : "+2";
-
-  saveSolves();
-
-  renderSolves();
-
-  updateStats();
-
-}
-
-
-function toggleDNF(index) {
-
-  solves[index].penalty =
-    solves[index].penalty === "DNF"
-      ? ""
-      : "DNF";
-
-  saveSolves();
-
-  renderSolves();
-
-  updateStats();
-
-}
-
-
-function deleteSolve(index) {
-
-  solves.splice(index, 1);
-
-  saveSolves();
-
-  renderSolves();
-
-  updateStats();
-
-}
-
-
-document
-  .getElementById("clearAll")
-  .addEventListener("click", () => {
-
-    if (!solves.length) return;
-
-    if (!confirm("Xóa toàn bộ solve?")) {
-      return;
-    }
-
-    solves = [];
-
-    saveSolves();
-
-    renderSolves();
-
-    updateStats();
-
-  });
-
-
-/* =====================================================
+/* =========================
    STATS
-===================================================== */
-
-function getEffectiveTime(solve) {
-
-  if (solve.penalty === "DNF") {
-
-    return Infinity;
-
-  }
-
-  return solve.time +
-    (solve.penalty === "+2" ? 2 : 0);
-
-}
-
-
-function calculateAverage(amount) {
-
-  if (solves.length < amount) {
-
-    return "--";
-
-  }
-
-  const recent =
-    solves
-      .slice(0, amount)
-      .map(getEffectiveTime);
-
-  const sorted =
-    [...recent].sort((a,b) => a-b);
-
-  if (!Number.isFinite(sorted[0])) {
-
-    return "--";
-
-  }
-
-  sorted.shift();
-
-  sorted.pop();
-
-  if (
-    sorted.some(
-      time => !Number.isFinite(time)
-    )
-  ) {
-
-    return "--";
-
-  }
-
-  const average =
-    sorted.reduce(
-      (sum,time) => sum + time,
-      0
-    ) / sorted.length;
-
-  return average.toFixed(2);
-
-}
-
+========================= */
 
 function updateStats() {
 
-  document.getElementById("count")
-    .textContent = solves.length;
+  document.getElementById("count").textContent =
+    solves.length;
 
+  const valid = solves
+    .filter(x => x.time !== "DNF")
+    .map(x => Number(x.time));
 
-  const valid =
-    solves
-      .map(getEffectiveTime)
-      .filter(Number.isFinite);
+  if (valid.length === 0) {
 
+    document.getElementById("pb").textContent =
+      "--";
 
-  document.getElementById("pb")
-    .textContent =
-      valid.length
-        ? Math.min(...valid).toFixed(2)
-        : "--";
+    return;
+  }
 
+  const pb = Math.min(...valid);
 
-  document.getElementById("ao5")
-    .textContent =
-      calculateAverage(5);
-
-
-  document.getElementById("ao12")
-    .textContent =
-      calculateAverage(12);
+  document.getElementById("pb").textContent =
+    pb.toFixed(2);
 
 }
 
 
-/* =====================================================
-   START
-===================================================== */
+/* =========================
+   CLEAR
+========================= */
 
-generateScramble();
+document.getElementById("clear").onclick = () => {
 
-renderSolves();
+  if (!confirm("Xóa toàn bộ solves?")) return;
 
+  solves = [];
+
+  saveHistory();
+  renderHistory();
+  updateStats();
+
+};
+
+
+/* =========================
+   RESET
+========================= */
+
+function resetForNextSolve() {
+
+  clearInterval(inspectionInterval);
+  clearInterval(solveInterval);
+
+  holding = false;
+  state = "idle";
+
+  resetTimerStyle();
+
+  setTimerText("0.00");
+
+  newScramble();
+  resetCube();
+}
+
+
+/* =========================
+   MINI CUBE
+========================= */
+
+const cubeColors = [
+  "white","white","white",
+  "white","white","white",
+  "white","white","white"
+];
+
+function renderCube() {
+
+  const cube =
+    document.getElementById("cube");
+
+  cube.innerHTML = "";
+
+  cubeColors.forEach(color => {
+
+    const sticker =
+      document.createElement("div");
+
+    sticker.className =
+      "sticker " + color;
+
+    cube.appendChild(sticker);
+
+  });
+
+}
+
+function resetCube() {
+
+  for (let i = 0; i < 9; i++) {
+    cubeColors[i] = "white";
+  }
+
+  renderCube();
+
+}
+
+renderCube();
+
+
+/* =========================
+   INIT
+========================= */
+
+renderHistory();
 updateStats();
-
-startInspection();
 
 </script>
 
