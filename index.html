@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,66 +7,103 @@
   <title>SPEED TIMER</title>
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       min-height: 100vh;
       background: #050509;
       color: white;
       font-family: Arial, sans-serif;
-      text-align: center;
     }
 
     .app {
-      width: 90%;
-      max-width: 500px;
+      width: 92%;
+      max-width: 600px;
       margin: auto;
-      padding-top: 40px;
+      padding: 35px 0;
+      text-align: center;
     }
 
     h1 {
+      margin-bottom: 25px;
       letter-spacing: 4px;
       font-size: 28px;
     }
 
     #scramble {
-      margin: 30px 0;
+      min-height: 50px;
+      padding: 15px;
+      border-radius: 12px;
+      background: #111116;
+      color: #ddd;
       font-size: 20px;
-      color: #aaa;
+      line-height: 1.5;
+      word-spacing: 6px;
     }
 
     #timer {
-      font-size: 90px;
+      font-size: clamp(65px, 18vw, 110px);
       font-weight: bold;
-      margin: 40px 0;
+      margin: 55px 0 35px;
+      font-variant-numeric: tabular-nums;
     }
 
-    button {
-      padding: 15px 45px;
+    #start {
+      padding: 15px 50px;
       border: none;
       border-radius: 12px;
+      background: white;
+      color: black;
       font-size: 20px;
       font-weight: bold;
       cursor: pointer;
     }
 
+    #start:active {
+      transform: scale(0.96);
+    }
+
     .stats {
       display: flex;
       justify-content: space-around;
-      margin: 30px 0;
+      margin: 35px 0;
+      padding: 15px;
+      background: #111116;
+      border-radius: 12px;
       font-size: 18px;
     }
 
     h2 {
       text-align: left;
+      margin-top: 35px;
     }
 
     #solves {
       text-align: left;
+      background: #111116;
+      border-radius: 12px;
+      overflow: hidden;
     }
 
     .solve {
-      padding: 10px;
-      border-bottom: 1px solid #333;
+      display: flex;
+      justify-content: space-between;
+      padding: 13px 16px;
+      border-bottom: 1px solid #29292f;
+      font-size: 18px;
+    }
+
+    .solve:last-child {
+      border-bottom: none;
+    }
+
+    .empty {
+      padding: 20px;
+      color: #777;
+      text-align: center;
     }
   </style>
 </head>
@@ -77,88 +114,204 @@
 
     <h1>SPEED TIMER</h1>
 
-    <div id="scramble">R U R' F2 D L' U2</div>
+    <div id="scramble">
+      Generating scramble...
+    </div>
 
     <div id="timer">0.00</div>
 
     <button id="start">START</button>
 
     <div class="stats">
-      <span>Solves: <b id="count">0</b></span>
-      <span>PB: <b id="pb">--</b></span>
+      <span>
+        Solves:
+        <b id="count">0</b>
+      </span>
+
+      <span>
+        PB:
+        <b id="pb">--</b>
+      </span>
     </div>
 
     <h2>Solves</h2>
 
-    <div id="solves"></div>
+    <div id="solves">
+      <div class="empty">No solves yet</div>
+    </div>
 
   </div>
 
   <script>
+    const timer = document.getElementById("timer");
+    const startButton = document.getElementById("start");
+    const scrambleElement = document.getElementById("scramble");
+    const countElement = document.getElementById("count");
+    const pbElement = document.getElementById("pb");
+    const solvesElement = document.getElementById("solves");
+
     let startTime = 0;
     let timerInterval = null;
     let running = false;
 
-    let solveTimes = [];
+    let solveTimes =
+      JSON.parse(localStorage.getItem("solveTimes")) || [];
 
-    const timer = document.getElementById("timer");
-    const startButton = document.getElementById("start");
-    const count = document.getElementById("count");
-    const pb = document.getElementById("pb");
-    const solves = document.getElementById("solves");
+    const faces = ["R", "L", "U", "D", "F", "B"];
+    const suffixes = ["", "'", "2"];
+
+    function generateScramble() {
+      const scramble = [];
+      let lastFace = "";
+
+      while (scramble.length < 20) {
+
+        const face =
+          faces[Math.floor(Math.random() * faces.length)];
+
+        if (face === lastFace) {
+          continue;
+        }
+
+        const suffix =
+          suffixes[Math.floor(Math.random() * suffixes.length)];
+
+        scramble.push(face + suffix);
+
+        lastFace = face;
+      }
+
+      return scramble.join(" ");
+    }
+
+    function newScramble() {
+      scrambleElement.textContent = generateScramble();
+    }
+
+    function updateStats() {
+
+      countElement.textContent = solveTimes.length;
+
+      if (solveTimes.length === 0) {
+        pbElement.textContent = "--";
+        return;
+      }
+
+      const best = Math.min(...solveTimes);
+
+      pbElement.textContent = best.toFixed(2);
+    }
+
+    function renderSolves() {
+
+      solvesElement.innerHTML = "";
+
+      if (solveTimes.length === 0) {
+
+        solvesElement.innerHTML =
+          '<div class="empty">No solves yet</div>';
+
+        return;
+      }
+
+      solveTimes
+        .slice()
+        .reverse()
+        .forEach((time, index) => {
+
+          const solve = document.createElement("div");
+
+          solve.className = "solve";
+
+          const number =
+            solveTimes.length - index;
+
+          solve.innerHTML = `
+            <span>#${number}</span>
+            <b>${time.toFixed(2)}</b>
+          `;
+
+          solvesElement.appendChild(solve);
+        });
+    }
 
     function startTimer() {
+
       if (running) return;
 
       running = true;
+
       startTime = performance.now();
 
       startButton.textContent = "STOP";
 
       timerInterval = setInterval(() => {
-        const time = (performance.now() - startTime) / 1000;
-        timer.textContent = time.toFixed(2);
+
+        const elapsed =
+          (performance.now() - startTime) / 1000;
+
+        timer.textContent =
+          elapsed.toFixed(2);
+
       }, 10);
     }
 
     function stopTimer() {
+
       if (!running) return;
 
       running = false;
+
       clearInterval(timerInterval);
 
-      const time = (performance.now() - startTime) / 1000;
+      const finalTime =
+        (performance.now() - startTime) / 1000;
 
-      timer.textContent = time.toFixed(2);
+      timer.textContent =
+        finalTime.toFixed(2);
+
       startButton.textContent = "START";
 
-      solveTimes.push(time);
+      solveTimes.push(finalTime);
 
-      count.textContent = solveTimes.length;
+      localStorage.setItem(
+        "solveTimes",
+        JSON.stringify(solveTimes)
+      );
 
-      if (
-        solveTimes.length === 1 ||
-        time < Math.min(...solveTimes.slice(0, -1))
-      ) {
-        pb.textContent = time.toFixed(2);
-      }
-
-      const item = document.createElement("div");
-      item.className = "solve";
-      item.textContent =
-        solveTimes.length + ". " + time.toFixed(2);
-
-      solves.prepend(item);
+      updateStats();
+      renderSolves();
+      newScramble();
     }
 
     startButton.addEventListener("click", () => {
+
       if (running) {
         stopTimer();
       } else {
         startTimer();
       }
+
     });
+
+    document.addEventListener("keydown", (event) => {
+
+      if (event.code !== "Space") return;
+
+      event.preventDefault();
+
+      if (running) {
+        stopTimer();
+      } else {
+        startTimer();
+      }
+
+    });
+
+    updateStats();
+    renderSolves();
+    newScramble();
   </script>
 
 </body>
-</htm
+</html>
