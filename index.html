@@ -12,99 +12,301 @@
   box-sizing: border-box;
 }
 
-body {
+html, body {
   margin: 0;
+  padding: 0;
   background: #08080c;
   color: white;
   font-family: Arial, sans-serif;
 }
 
-.app {
-  width: 94%;
-  max-width: 600px;
-  margin: auto;
-  padding: 25px 0 50px;
+body {
+  min-height: 100vh;
 }
 
-/* TITLE */
+.app {
+  width: 94%;
+  max-width: 700px;
+  margin: auto;
+  padding: 20px 0 80px;
+}
+
+/* =========================
+   TITLE
+========================= */
 
 h1 {
   text-align: center;
   letter-spacing: 4px;
-  margin-bottom: 25px;
+  margin: 5px 0 20px;
 }
 
-/* SCRAMBLE */
+/* =========================
+   SCRAMBLE
+========================= */
 
-.scramble-box {
-  background: #121218;
-  border-radius: 14px;
-  padding: 15px;
+.scramble {
   text-align: center;
-  margin-bottom: 20px;
-}
-
-#scramble {
-  font-size: 20px;
+  background: #121218;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 19px;
   font-weight: bold;
   line-height: 1.5;
-  word-break: break-word;
+  margin-bottom: 15px;
 }
 
-/* CUBE */
+/* =========================
+   INSPECTION
+========================= */
 
-.cube-section {
-  background: #121218;
-  border-radius: 14px;
-  padding: 15px;
-  margin-bottom: 20px;
-}
-
-.cube-title {
+#inspection {
   text-align: center;
-  font-weight: bold;
-  margin-bottom: 12px;
+  font-size: 20px;
   color: #aaa;
+  min-height: 28px;
 }
 
-.cube {
-  width: min(100%, 360px);
-  margin: auto;
+/* =========================
+   TIMER AREA
+   CHỈ KHU VỰC NÀY
+   NHẬN INPUT
+========================= */
+
+#timerArea {
+  width: 100%;
+
+  min-height: 250px;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+
+  user-select: none;
+  -webkit-user-select: none;
+
+  touch-action: manipulation;
+
+  cursor: pointer;
+}
+
+#timer {
+  font-size: clamp(90px, 24vw, 170px);
+
+  font-weight: 700;
+
+  line-height: 1;
+
+  font-variant-numeric: tabular-nums;
+
+  letter-spacing: -5px;
+}
+
+#status {
+  margin-top: 20px;
+
+  color: #777;
+
+  font-size: 14px;
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats {
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 8px;
+
+  margin: 10px 0 25px;
+}
+
+.stat {
+  background: #121218;
+
+  border-radius: 10px;
+
+  padding: 12px 5px;
+
+  text-align: center;
+}
+
+.stat-name {
+  color: #888;
+
+  font-size: 13px;
+}
+
+.stat-value {
+  font-size: 20px;
+
+  font-weight: bold;
+
+  margin-top: 5px;
+}
+
+/* =========================
+   SOLVES
+========================= */
+
+.solves-title {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 10px;
+}
+
+.solves-title h2 {
+  margin: 0;
+}
+
+#clearAll {
+  border: none;
+
+  background: #292930;
+
+  color: white;
+
+  padding: 8px 12px;
+
+  border-radius: 8px;
+}
+
+/* =========================
+   SOLVE CARD
+========================= */
+
+.solve {
+  background: #121218;
+
+  border-radius: 12px;
+
+  padding: 12px;
+
+  margin-bottom: 9px;
+}
+
+.solve-main {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+}
+
+.solve-number {
+  color: #777;
+}
+
+.solve-time {
+  font-size: 23px;
+
+  font-weight: bold;
+}
+
+.solve-buttons {
+  display: flex;
+
+  gap: 7px;
+
+  margin-top: 10px;
+}
+
+.solve-buttons button {
+  flex: 1;
+
+  border: none;
+
+  border-radius: 7px;
+
+  padding: 8px;
+
+  color: white;
+
+  background: #292930;
+
+  font-size: 14px;
+}
+
+.solve-scramble {
+  color: #888;
+
+  font-size: 12px;
+
+  line-height: 1.5;
+
+  margin-top: 9px;
+}
+
+.empty {
+  text-align: center;
+
+  color: #555;
+
+  padding: 30px 0;
+}
+
+/* =========================
+   MINI CUBE
+   GÓC TRÁI DƯỚI
+========================= */
+
+#miniCube {
+  position: fixed;
+
+  left: 10px;
+  bottom: 10px;
+
+  width: 118px;
+
+  padding: 7px;
+
+  background: rgba(15,15,20,0.94);
+
+  border: 1px solid #292930;
+
+  border-radius: 10px;
+
+  z-index: 50;
+
+  pointer-events: none;
+}
+
+.cube-net {
+  width: 104px;
+  height: 78px;
 
   display: grid;
 
-  grid-template-columns:
-    repeat(4, 1fr);
+  grid-template-columns: repeat(4, 25px);
+  grid-template-rows: repeat(3, 25px);
 
-  grid-template-rows:
-    repeat(3, 1fr);
-
-  gap: 5px;
+  gap: 1px;
 }
-
-/* CUBE NET */
 
 .face {
-  aspect-ratio: 1;
+  width: 25px;
+  height: 25px;
 
   display: grid;
 
-  grid-template-columns:
-    repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
 
-  grid-template-rows:
-    repeat(3, 1fr);
+  gap: 1px;
 
-  gap: 2px;
+  background: #000;
 
-  padding: 3px;
-
-  background: #050505;
-
-  border-radius: 6px;
+  padding: 1px;
 }
-
-/* vị trí từng mặt */
 
 .face.U {
   grid-column: 2;
@@ -136,25 +338,21 @@ h1 {
   grid-row: 3;
 }
 
-/* STICKER */
-
 .sticker {
   width: 100%;
   height: 100%;
 
-  border-radius: 3px;
-
-  border: 1px solid #111;
+  border-radius: 1px;
 }
 
-/* COLORS */
+/* RUBIK COLORS */
 
 .white {
   background: #eeeeee;
 }
 
 .yellow {
-  background: #ffd900;
+  background: #ffd500;
 }
 
 .red {
@@ -170,186 +368,29 @@ h1 {
 }
 
 .green {
-  background: #22a447;
+  background: #20a447;
 }
 
-/* TIMER */
+/* =========================
+   MOBILE
+========================= */
 
-#timer {
-  text-align: center;
-
-  font-size: clamp(65px, 18vw, 110px);
-
-  font-weight: bold;
-
-  margin: 25px 0;
-
-  font-variant-numeric: tabular-nums;
-}
-
-/* STATUS */
-
-#status {
-  text-align: center;
-
-  color: #888;
-
-  font-size: 14px;
-
-  margin-bottom: 15px;
-}
-
-/* STATS */
-
-.stats {
-  display: flex;
-
-  justify-content: space-around;
-
-  background: #121218;
-
-  border-radius: 14px;
-
-  padding: 15px;
-
-  margin-bottom: 20px;
-
-  text-align: center;
-}
-
-.stat-value {
-  font-size: 22px;
-  font-weight: bold;
-}
-
-/* SOLVES */
-
-.solves-header {
-  display: flex;
-
-  justify-content: space-between;
-
-  align-items: center;
-
-  margin-bottom: 10px;
-}
-
-.solves-header h2 {
-  margin: 0;
-}
-
-#clearAll {
-  background: #292932;
-
-  color: white;
-
-  border: none;
-
-  padding: 8px 12px;
-
-  border-radius: 8px;
-
-  cursor: pointer;
-}
-
-/* SOLVE */
-
-.solve {
-  background: #121218;
-
-  border-radius: 12px;
-
-  padding: 12px;
-
-  margin-bottom: 10px;
-}
-
-.solve-top {
-  display: flex;
-
-  justify-content: space-between;
-
-  align-items: center;
-}
-
-.solve-number {
-  color: #888;
-}
-
-.solve-time {
-  font-size: 22px;
-
-  font-weight: bold;
-}
-
-.solve-buttons {
-  display: flex;
-
-  gap: 6px;
-
-  margin-top: 10px;
-}
-
-.solve-buttons button {
-  flex: 1;
-
-  border: none;
-
-  border-radius: 7px;
-
-  padding: 8px;
-
-  color: white;
-
-  background: #292932;
-
-  cursor: pointer;
-}
-
-.solve-buttons button:hover {
-  background: #3a3a45;
-}
-
-.solve-scramble {
-  color: #aaa;
-
-  font-size: 13px;
-
-  line-height: 1.4;
-
-  margin-top: 8px;
-}
-
-/* EMPTY */
-
-.empty {
-  text-align: center;
-
-  color: #666;
-
-  padding: 25px;
-}
-
-/* MOBILE */
-
-@media (max-width: 430px) {
+@media (max-width: 450px) {
 
   .app {
     width: 96%;
-    padding-top: 15px;
   }
 
-  #scramble {
-    font-size: 17px;
+  .stats {
+    gap: 5px;
   }
 
-  .cube {
-    gap: 3px;
+  .stat-value {
+    font-size: 18px;
   }
 
-  .face {
-    gap: 1.5px;
-    padding: 2px;
+  #timerArea {
+    min-height: 220px;
   }
 
 }
@@ -364,53 +405,30 @@ h1 {
 
   <h1>SPEED TIMER</h1>
 
-
   <!-- SCRAMBLE -->
 
-  <div class="scramble-box">
-
-    <div id="scramble">
-      R U R' F2 D L' U2
-    </div>
-
+  <div class="scramble" id="scramble">
+    R U R' F2 D L' U2
   </div>
 
 
-  <!-- CUBE -->
+  <!-- INSPECTION -->
 
-  <div class="cube-section">
+  <div id="inspection"></div>
 
-    <div class="cube-title">
-      CUBE
+
+  <!-- TIMER AREA -->
+
+  <div id="timerArea">
+
+    <div id="timer">
+      0.00
     </div>
 
-    <div class="cube" id="cube">
-
-      <div class="face U" id="face-U"></div>
-
-      <div class="face L" id="face-L"></div>
-
-      <div class="face F" id="face-F"></div>
-
-      <div class="face R" id="face-R"></div>
-
-      <div class="face B" id="face-B"></div>
-
-      <div class="face D" id="face-D"></div>
-
+    <div id="status">
+      Chạm giữ vùng này để bắt đầu
     </div>
 
-  </div>
-
-
-  <!-- TIMER -->
-
-  <div id="timer">
-    0.00
-  </div>
-
-  <div id="status">
-    Giữ Space / màn hình rồi thả để bắt đầu
   </div>
 
 
@@ -418,32 +436,32 @@ h1 {
 
   <div class="stats">
 
-    <div>
-      <div>Solves</div>
+    <div class="stat">
+      <div class="stat-name">Solves</div>
       <div class="stat-value" id="count">0</div>
     </div>
 
-    <div>
-      <div>PB</div>
+    <div class="stat">
+      <div class="stat-name">PB</div>
       <div class="stat-value" id="pb">--</div>
     </div>
 
-    <div>
-      <div>Ao5</div>
+    <div class="stat">
+      <div class="stat-name">Ao5</div>
       <div class="stat-value" id="ao5">--</div>
     </div>
 
-    <div>
-      <div>Ao12</div>
+    <div class="stat">
+      <div class="stat-name">Ao12</div>
       <div class="stat-value" id="ao12">--</div>
     </div>
 
   </div>
 
 
-  <!-- SOLVES -->
+  <!-- HISTORY -->
 
-  <div class="solves-header">
+  <div class="solves-title">
 
     <h2>Solves</h2>
 
@@ -453,11 +471,28 @@ h1 {
 
   </div>
 
-  <div id="solves">
+  <div id="solves"></div>
 
-    <div class="empty">
-      Chưa có solve nào
-    </div>
+</div>
+
+
+<!-- MINI CUBE -->
+
+<div id="miniCube">
+
+  <div class="cube-net">
+
+    <div class="face U" id="face-U"></div>
+
+    <div class="face L" id="face-L"></div>
+
+    <div class="face F" id="face-F"></div>
+
+    <div class="face R" id="face-R"></div>
+
+    <div class="face B" id="face-B"></div>
+
+    <div class="face D" id="face-D"></div>
 
   </div>
 
@@ -466,45 +501,41 @@ h1 {
 
 <script>
 
-/* =========================
+/* =====================================================
    SCRAMBLE
-========================= */
+===================================================== */
 
-const faces = ["R", "L", "U", "D", "F", "B"];
+const faces = ["R","L","U","D","F","B"];
 
-const modifiers = ["", "'", "2"];
+const modifiers = ["","'","2"];
 
 let currentScramble = "";
 
 
 function generateScramble() {
 
-  let result = [];
+  let moves = [];
 
-  let lastFace = "";
+  let last = "";
 
-  while (result.length < 20) {
+  while (moves.length < 20) {
 
-    let face =
+    const face =
       faces[Math.floor(Math.random() * faces.length)];
 
-    // Không cho cùng mặt liên tiếp
+    if (face === last) continue;
 
-    if (face === lastFace) {
-      continue;
-    }
-
-    let modifier =
+    const modifier =
       modifiers[
         Math.floor(Math.random() * modifiers.length)
       ];
 
-    result.push(face + modifier);
+    moves.push(face + modifier);
 
-    lastFace = face;
+    last = face;
   }
 
-  currentScramble = result.join(" ");
+  currentScramble = moves.join(" ");
 
   document.getElementById("scramble").textContent =
     currentScramble;
@@ -514,25 +545,11 @@ function generateScramble() {
 }
 
 
-/* =========================
+/* =====================================================
    CUBE
-========================= */
+===================================================== */
 
-let cube = {
-
-  U: Array(9).fill("white"),
-
-  R: Array(9).fill("red"),
-
-  F: Array(9).fill("green"),
-
-  D: Array(9).fill("yellow"),
-
-  L: Array(9).fill("orange"),
-
-  B: Array(9).fill("blue")
-
-};
+let cube;
 
 
 function resetCube() {
@@ -540,15 +557,10 @@ function resetCube() {
   cube = {
 
     U: Array(9).fill("white"),
-
     R: Array(9).fill("red"),
-
     F: Array(9).fill("green"),
-
     D: Array(9).fill("yellow"),
-
     L: Array(9).fill("orange"),
-
     B: Array(9).fill("blue")
 
   };
@@ -556,56 +568,50 @@ function resetCube() {
 }
 
 
-/* xoay mặt 90 độ */
-
 function rotateFace(face) {
 
   const old = [...cube[face]];
 
   cube[face][0] = old[6];
-
   cube[face][1] = old[3];
-
   cube[face][2] = old[0];
 
   cube[face][3] = old[7];
-
   cube[face][4] = old[4];
-
   cube[face][5] = old[1];
 
   cube[face][6] = old[8];
-
   cube[face][7] = old[5];
-
   cube[face][8] = old[2];
 
 }
 
 
-/*
-   Các move dưới đây mô phỏng
-   màu của cube.
-*/
-
 function moveR() {
 
   rotateFace("R");
 
-  const U = [2,5,8];
-  const F = [2,5,8];
-  const D = [2,5,8];
-  const B = [6,3,0];
+  const temp = [
+    cube.U[2],
+    cube.U[5],
+    cube.U[8]
+  ];
 
-  const temp = U.map(i => cube.U[i]);
+  cube.U[2] = cube.F[2];
+  cube.U[5] = cube.F[5];
+  cube.U[8] = cube.F[8];
 
-  U.forEach((i,n) => cube.U[i] = cube.F[F[n]]);
+  cube.F[2] = cube.D[2];
+  cube.F[5] = cube.D[5];
+  cube.F[8] = cube.D[8];
 
-  F.forEach((i,n) => cube.F[i] = cube.D[D[n]]);
+  cube.D[2] = cube.B[6];
+  cube.D[5] = cube.B[3];
+  cube.D[8] = cube.B[0];
 
-  D.forEach((i,n) => cube.D[i] = cube.B[B[n]]);
-
-  B.forEach((i,n) => cube.B[i] = temp[n]);
+  cube.B[6] = temp[0];
+  cube.B[3] = temp[1];
+  cube.B[0] = temp[2];
 
 }
 
@@ -614,20 +620,27 @@ function moveL() {
 
   rotateFace("L");
 
-  const U = [0,3,6];
-  const F = [0,3,6];
-  const D = [0,3,6];
-  const B = [8,5,2];
+  const temp = [
+    cube.U[0],
+    cube.U[3],
+    cube.U[6]
+  ];
 
-  const temp = U.map(i => cube.U[i]);
+  cube.U[0] = cube.B[8];
+  cube.U[3] = cube.B[5];
+  cube.U[6] = cube.B[2];
 
-  U.forEach((i,n) => cube.U[i] = cube.B[B[n]]);
+  cube.B[8] = cube.D[0];
+  cube.B[5] = cube.D[3];
+  cube.B[2] = cube.D[6];
 
-  B.forEach((i,n) => cube.B[i] = cube.D[D[n]]);
+  cube.D[0] = cube.F[0];
+  cube.D[3] = cube.F[3];
+  cube.D[6] = cube.F[6];
 
-  D.forEach((i,n) => cube.D[i] = cube.F[F[n]]);
-
-  F.forEach((i,n) => cube.F[i] = temp[n]);
+  cube.F[0] = temp[0];
+  cube.F[3] = temp[1];
+  cube.F[6] = temp[2];
 
 }
 
@@ -741,15 +754,10 @@ function applyMove(move) {
   for (let i = 0; i < turns; i++) {
 
     if (face === "R") moveR();
-
     if (face === "L") moveL();
-
     if (face === "U") moveU();
-
     if (face === "D") moveD();
-
     if (face === "F") moveF();
-
     if (face === "B") moveB();
 
   }
@@ -761,16 +769,15 @@ function updateCube() {
 
   resetCube();
 
-  const moves =
-    currentScramble.split(" ");
+  currentScramble
+    .split(" ")
+    .forEach(move => {
 
-  moves.forEach(move => {
+      if (move) {
+        applyMove(move);
+      }
 
-    if (move) {
-      applyMove(move);
-    }
-
-  });
+    });
 
   renderCube();
 
@@ -779,36 +786,101 @@ function updateCube() {
 
 function renderCube() {
 
-  const names =
-    ["U","L","F","R","B","D"];
+  ["U","L","F","R","B","D"]
+    .forEach(face => {
 
-  names.forEach(face => {
+      const element =
+        document.getElementById("face-" + face);
 
-    const element =
-      document.getElementById("face-" + face);
+      element.innerHTML = "";
 
-    element.innerHTML = "";
+      cube[face].forEach(color => {
 
-    cube[face].forEach(color => {
+        const sticker =
+          document.createElement("div");
 
-      const sticker =
-        document.createElement("div");
+        sticker.className =
+          "sticker " + color;
 
-      sticker.className =
-        "sticker " + color;
+        element.appendChild(sticker);
 
-      element.appendChild(sticker);
+      });
 
     });
-
-  });
 
 }
 
 
-/* =========================
+/* =====================================================
+   INSPECTION
+===================================================== */
+
+let inspectionRunning = false;
+
+let inspectionTimer = null;
+
+let inspectionStart = 0;
+
+
+function startInspection() {
+
+  clearInterval(inspectionTimer);
+
+  inspectionRunning = true;
+
+  inspectionStart = performance.now();
+
+  let lastSecond = 15;
+
+  document.getElementById("inspection").textContent =
+    "Inspection: 15";
+
+  inspectionTimer = setInterval(() => {
+
+    const elapsed =
+      (performance.now() - inspectionStart) / 1000;
+
+    const remaining =
+      15 - Math.floor(elapsed);
+
+    if (remaining !== lastSecond) {
+
+      lastSecond = remaining;
+
+      if (remaining > 0) {
+
+        document.getElementById("inspection")
+          .textContent =
+          "Inspection: " + remaining;
+
+      }
+
+    }
+
+    if (elapsed >= 15) {
+
+      clearInterval(inspectionTimer);
+
+      inspectionRunning = false;
+
+      document.getElementById("inspection")
+        .textContent =
+        "DNF — inspection quá 15s";
+
+      document.getElementById("status")
+        .textContent =
+        "Chạm vùng timer để bắt đầu";
+
+    }
+
+  }, 50);
+
+}
+
+
+/* =====================================================
    TIMER
-========================= */
+===================================================== */
 
 let running = false;
 
@@ -823,22 +895,29 @@ function startTimer() {
 
   if (running) return;
 
+  clearInterval(inspectionTimer);
+
+  inspectionRunning = false;
+
   running = true;
 
   ready = false;
 
   startTime = performance.now();
 
+  document.getElementById("inspection").textContent =
+    "";
+
   document.getElementById("status").textContent =
     "Đang chạy...";
 
   timerInterval = setInterval(() => {
 
-    const time =
+    const elapsed =
       (performance.now() - startTime) / 1000;
 
     document.getElementById("timer").textContent =
-      time.toFixed(2);
+      elapsed.toFixed(2);
 
   }, 10);
 
@@ -862,16 +941,108 @@ function stopTimer() {
   addSolve(finalTime);
 
   document.getElementById("status").textContent =
-    "Giữ Space / màn hình rồi thả để bắt đầu";
+    "Đang chuẩn bị scramble mới...";
 
-  generateScramble();
+  setTimeout(() => {
+
+    generateScramble();
+
+    document.getElementById("timer").textContent =
+      "0.00";
+
+    document.getElementById("status").textContent =
+      "Chạm giữ vùng timer để bắt đầu";
+
+    startInspection();
+
+  }, 300);
 
 }
 
 
-/* =========================
-   KEYBOARD
-========================= */
+/* =====================================================
+   CHỈ TIMER AREA NHẬN INPUT
+===================================================== */
+
+const timerArea =
+  document.getElementById("timerArea");
+
+
+/* DESKTOP */
+
+timerArea.addEventListener("mousedown", event => {
+
+  event.preventDefault();
+
+  if (running) {
+
+    stopTimer();
+
+    return;
+
+  }
+
+  ready = true;
+
+  document.getElementById("status").textContent =
+    "Thả ra để bắt đầu";
+
+});
+
+
+timerArea.addEventListener("mouseup", event => {
+
+  event.preventDefault();
+
+  if (!running && ready) {
+
+    startTimer();
+
+  }
+
+  ready = false;
+
+});
+
+
+/* MOBILE */
+
+timerArea.addEventListener("touchstart", event => {
+
+  event.preventDefault();
+
+  if (running) {
+
+    stopTimer();
+
+    return;
+
+  }
+
+  ready = true;
+
+  document.getElementById("status").textContent =
+    "Thả ra để bắt đầu";
+
+}, { passive: false });
+
+
+timerArea.addEventListener("touchend", event => {
+
+  event.preventDefault();
+
+  if (!running && ready) {
+
+    startTimer();
+
+  }
+
+  ready = false;
+
+}, { passive: false });
+
+
+/* SPACE */
 
 document.addEventListener("keydown", event => {
 
@@ -888,9 +1059,6 @@ document.addEventListener("keydown", event => {
   }
 
   ready = true;
-
-  document.getElementById("status").textContent =
-    "Sẵn sàng — thả Space!";
 
 });
 
@@ -912,55 +1080,14 @@ document.addEventListener("keyup", event => {
 });
 
 
-/* =========================
-   TOUCH
-========================= */
-
-document.addEventListener("touchstart", event => {
-
-  if (event.target.closest("button")) return;
-
-  event.preventDefault();
-
-  if (running) {
-
-    stopTimer();
-
-    return;
-
-  }
-
-  ready = true;
-
-  document.getElementById("status").textContent =
-    "Sẵn sàng — thả màn hình!";
-
-}, { passive: false });
-
-
-document.addEventListener("touchend", event => {
-
-  if (event.target.closest("button")) return;
-
-  event.preventDefault();
-
-  if (!running && ready) {
-
-    startTimer();
-
-  }
-
-  ready = false;
-
-}, { passive: false });
-
-
-/* =========================
+/* =====================================================
    SOLVES
-========================= */
+===================================================== */
 
 let solves =
-  JSON.parse(localStorage.getItem("rubikSolves")) || [];
+  JSON.parse(
+    localStorage.getItem("rubikSolves")
+  ) || [];
 
 
 function saveSolves() {
@@ -997,12 +1124,18 @@ function addSolve(time) {
 function displayTime(solve) {
 
   if (solve.penalty === "DNF") {
+
     return "DNF";
+
   }
 
-  const time =
-    solve.time +
-    (solve.penalty === "+2" ? 2 : 0);
+  let time = solve.time;
+
+  if (solve.penalty === "+2") {
+
+    time += 2;
+
+  }
 
   return time.toFixed(2) +
     (solve.penalty === "+2" ? "+" : "");
@@ -1035,7 +1168,7 @@ function renderSolves() {
 
     div.innerHTML = `
 
-      <div class="solve-top">
+      <div class="solve-main">
 
         <span class="solve-number">
           #${solves.length - index}
@@ -1053,12 +1186,12 @@ function renderSolves() {
           +2
         </button>
 
-        <button onclick="dnf(${index})">
+        <button onclick="toggleDNF(${index})">
           DNF
         </button>
 
         <button onclick="deleteSolve(${index})">
-          🗑️
+          Xóa
         </button>
 
       </div>
@@ -1096,7 +1229,7 @@ function plusTwo(index) {
 }
 
 
-function dnf(index) {
+function toggleDNF(index) {
 
   solves[index].penalty =
     solves[index].penalty === "DNF"
@@ -1129,9 +1262,11 @@ document
   .getElementById("clearAll")
   .addEventListener("click", () => {
 
-    if (solves.length === 0) return;
+    if (!solves.length) return;
 
-    if (!confirm("Xóa toàn bộ solve?")) return;
+    if (!confirm("Xóa toàn bộ solve?")) {
+      return;
+    }
 
     solves = [];
 
@@ -1144,122 +1279,113 @@ document
   });
 
 
-/* =========================
+/* =====================================================
    STATS
-========================= */
+===================================================== */
 
-function validTimes() {
+function getEffectiveTime(solve) {
 
-  return solves
+  if (solve.penalty === "DNF") {
 
-    .filter(s => s.penalty !== "DNF")
+    return Infinity;
 
-    .map(s =>
-      s.time +
-      (s.penalty === "+2" ? 2 : 0)
-    );
+  }
+
+  return solve.time +
+    (solve.penalty === "+2" ? 2 : 0);
 
 }
 
 
-function formatAverage(times) {
+function calculateAverage(amount) {
 
-  if (times.length === 0) {
+  if (solves.length < amount) {
+
     return "--";
+
+  }
+
+  const recent =
+    solves
+      .slice(0, amount)
+      .map(getEffectiveTime);
+
+  const sorted =
+    [...recent].sort((a,b) => a-b);
+
+  if (!Number.isFinite(sorted[0])) {
+
+    return "--";
+
+  }
+
+  sorted.shift();
+
+  sorted.pop();
+
+  if (
+    sorted.some(
+      time => !Number.isFinite(time)
+    )
+  ) {
+
+    return "--";
+
   }
 
   const average =
-    times.reduce((a,b) => a+b, 0)
-    / times.length;
+    sorted.reduce(
+      (sum,time) => sum + time,
+      0
+    ) / sorted.length;
 
   return average.toFixed(2);
 
 }
 
 
-function calculateAverage(n) {
-
-  const recent =
-    solves.slice(0,n);
-
-  if (recent.length < n) {
-    return "--";
-  }
-
-  let times =
-    recent.map(s => {
-
-      if (s.penalty === "DNF") {
-        return Infinity;
-      }
-
-      return s.time +
-        (s.penalty === "+2" ? 2 : 0);
-
-    });
-
-  /*
-     WCA style:
-     bỏ nhanh nhất + chậm nhất
-  */
-
-  times.sort((a,b) => a-b);
-
-  if (!Number.isFinite(times[0])) {
-    return "--";
-  }
-
-  times.shift();
-
-  times.pop();
-
-  if (times.some(t => !Number.isFinite(t))) {
-    return "--";
-  }
-
-  return formatAverage(times);
-
-}
-
-
 function updateStats() {
 
-  document.getElementById("count").textContent =
-    solves.length;
+  document.getElementById("count")
+    .textContent = solves.length;
 
-  const times =
-    validTimes();
 
-  if (times.length > 0) {
+  const valid =
+    solves
+      .map(getEffectiveTime)
+      .filter(Number.isFinite);
 
-    document.getElementById("pb").textContent =
-      Math.min(...times).toFixed(2);
 
-  } else {
+  document.getElementById("pb")
+    .textContent =
+      valid.length
+        ? Math.min(...valid).toFixed(2)
+        : "--";
 
-    document.getElementById("pb").textContent =
-      "--";
 
-  }
+  document.getElementById("ao5")
+    .textContent =
+      calculateAverage(5);
 
-  document.getElementById("ao5").textContent =
-    calculateAverage(5);
 
-  document.getElementById("ao12").textContent =
-    calculateAverage(12);
+  document.getElementById("ao12")
+    .textContent =
+      calculateAverage(12);
 
 }
 
 
-/* =========================
+/* =====================================================
    START
-========================= */
+===================================================== */
 
 generateScramble();
 
 renderSolves();
 
 updateStats();
+
+startInspection();
 
 </script>
 
