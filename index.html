@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RUBIK SPEED TIMER</title>
+<title>SPEED TIMER</title>
 
 <style>
 * {
@@ -16,6 +16,8 @@ body {
   background: #050509;
   color: white;
   font-family: Arial, sans-serif;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .app {
@@ -23,196 +25,218 @@ body {
   max-width: 700px;
   margin: auto;
   padding: 25px 0 50px;
+  text-align: center;
 }
 
 h1 {
-  text-align: center;
   letter-spacing: 4px;
-  margin-bottom: 22px;
+  margin-bottom: 20px;
 }
 
 #scramble {
   background: #111116;
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 16px;
-  text-align: center;
-  font-size: 19px;
+  font-size: 20px;
   line-height: 1.6;
-  word-spacing: 5px;
+  word-spacing: 7px;
+  min-height: 58px;
 }
 
 #timer {
-  text-align: center;
-  font-size: clamp(65px, 18vw, 110px);
+  font-size: clamp(70px, 20vw, 120px);
   font-weight: bold;
-  margin: 45px 0 30px;
+  margin: 45px 0 25px;
   font-variant-numeric: tabular-nums;
 }
 
-#start {
-  display: block;
-  margin: auto;
-  padding: 15px 55px;
-  border: none;
-  border-radius: 12px;
-  background: white;
-  color: black;
-  font-size: 20px;
-  font-weight: bold;
-}
-
-#start:active {
-  transform: scale(.96);
+#message {
+  color: #aaa;
+  font-size: 15px;
+  margin-bottom: 20px;
 }
 
 .stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  margin: 30px 0;
-}
-
-.stat {
+  display: flex;
+  justify-content: space-around;
   background: #111116;
-  border-radius: 10px;
-  padding: 13px 5px;
-  text-align: center;
+  border-radius: 14px;
+  padding: 16px;
+  margin: 20px 0;
+  font-size: 17px;
 }
 
-.stat small {
+.averages {
+  display: flex;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.average {
+  flex: 1;
+  background: #111116;
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.average b {
   display: block;
-  color: #888;
-  margin-bottom: 5px;
-}
-
-.stat b {
-  font-size: 18px;
+  font-size: 22px;
+  margin-top: 5px;
 }
 
 h2 {
-  margin-top: 35px;
+  text-align: left;
+  margin-top: 30px;
 }
 
-#clearAll {
-  background: #25252b;
-  color: white;
-  border: none;
-  padding: 10px 14px;
-  border-radius: 9px;
-  margin-bottom: 12px;
+#history {
+  background: #111116;
+  border-radius: 14px;
+  overflow: hidden;
 }
 
 .solve {
-  background: #111116;
-  border-radius: 12px;
-  padding: 15px;
-  margin-bottom: 10px;
+  padding: 14px;
+  border-bottom: 1px solid #29292f;
+  text-align: left;
 }
 
-.solveTop {
+.solve:last-child {
+  border-bottom: none;
+}
+
+.solve-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.solveTime {
+.solve-time {
   font-size: 22px;
   font-weight: bold;
 }
 
-.solveNumber {
+.solve-number {
   color: #888;
+  margin-right: 8px;
 }
 
-.scrambleHistory {
+.solve-scramble {
   color: #aaa;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.5;
-  margin: 10px 0;
+  margin: 8px 0;
 }
 
-.buttons {
+.solve-buttons {
   display: flex;
-  gap: 7px;
-  flex-wrap: wrap;
+  gap: 6px;
 }
 
-.buttons button {
+.solve-buttons button,
+.controls button {
   border: none;
-  border-radius: 7px;
-  padding: 8px 11px;
-  background: #24242a;
+  border-radius: 8px;
+  padding: 8px 12px;
+  background: #29292f;
   color: white;
+  cursor: pointer;
+}
+
+.solve-buttons button:hover,
+.controls button:hover {
+  background: #3a3a42;
 }
 
 .empty {
-  text-align: center;
+  padding: 25px;
   color: #777;
-  background: #111116;
-  padding: 20px;
-  border-radius: 12px;
 }
 
-/* RUBIK */
+.controls {
+  display: flex;
+  gap: 8px;
+  margin-top: 15px;
+}
 
-.rubikBox {
+.controls button {
+  flex: 1;
+}
+
+#cubeBox {
   position: fixed;
   left: 12px;
   bottom: 12px;
-  background: #111116;
-  padding: 10px;
+  background: #0d0d12;
+  border: 1px solid #29292f;
   border-radius: 12px;
+  padding: 8px;
   z-index: 10;
 }
 
-.rubikTitle {
-  text-align: center;
-  font-size: 12px;
-  color: #aaa;
-  margin-bottom: 6px;
-}
-
-.rubik {
-  display: grid;
-  grid-template-columns: repeat(4, 28px);
-  grid-template-rows: repeat(3, 28px);
-  gap: 2px;
+#cube {
+  width: 150px;
+  height: 110px;
+  position: relative;
+  margin: auto;
 }
 
 .face {
+  position: absolute;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
+  gap: 2px;
 }
 
 .sticker {
-  width: 8px;
-  height: 8px;
-  border-radius: 1px;
-  border: 1px solid #222;
+  width: 18px;
+  height: 18px;
+  border-radius: 2px;
+  border: 1px solid #111;
+}
+
+.U {
+  left: 51px;
+  top: 2px;
+}
+
+.L {
+  left: 2px;
+  top: 38px;
+}
+
+.F {
+  left: 51px;
+  top: 38px;
+}
+
+.R {
+  left: 100px;
+  top: 38px;
+}
+
+.B {
+  left: 51px;
+  top: 74px;
+}
+
+.D {
+  left: 51px;
+  top: 38px;
+  transform: translateY(36px);
 }
 
 .white { background: white; }
-.yellow { background: #ffd900; }
-.green { background: #00a651; }
-.blue { background: #1685e5; }
-.red { background: #e32626; }
+.yellow { background: #ffd800; }
+.red { background: #e53935; }
 .orange { background: #ff8c00; }
-
-.faceU { grid-column: 2; grid-row: 1; }
-.faceL { grid-column: 1; grid-row: 2; }
-.faceF { grid-column: 2; grid-row: 2; }
-.faceR { grid-column: 3; grid-row: 2; }
-.faceB { grid-column: 4; grid-row: 2; }
-.faceD { grid-column: 2; grid-row: 3; }
+.blue { background: #1976d2; }
+.green { background: #19a64a; }
 
 @media (max-width: 500px) {
-  .stats {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .rubikBox {
-    transform: scale(.85);
+  #cubeBox {
+    transform: scale(0.85);
     transform-origin: bottom left;
   }
 }
@@ -223,91 +247,88 @@ h2 {
 
 <div class="app">
 
-<h1>RUBIK SPEED TIMER</h1>
+<h1>SPEED TIMER</h1>
 
-<div id="scramble">Generating scramble...</div>
+<div id="scramble">Loading...</div>
 
 <div id="timer">0.00</div>
 
-<button id="start">START</button>
+<div id="message">
+Giữ Space / giữ màn hình → thả để bắt đầu
+</div>
 
 <div class="stats">
-
-<div class="stat">
-<small>Solves</small>
-<b id="count">0</b>
+  <span>Solves: <b id="count">0</b></span>
+  <span>PB: <b id="pb">--</b></span>
 </div>
 
-<div class="stat">
-<small>PB</small>
-<b id="pb">--</b>
-</div>
+<div class="averages">
+  <div class="average">
+    Ao5
+    <b id="ao5">--</b>
+  </div>
 
-<div class="stat">
-<small>Ao5</small>
-<b id="ao5">--</b>
-</div>
-
-<div class="stat">
-<small>Ao12</small>
-<b id="ao12">--</b>
-</div>
-
+  <div class="average">
+    Ao12
+    <b id="ao12">--</b>
+  </div>
 </div>
 
 <h2>Lịch sử</h2>
 
-<button id="clearAll">🗑 Xóa tất cả</button>
+<div id="history">
+  <div class="empty">Chưa có solve</div>
+</div>
 
-<div id="solves">
-<div class="empty">Chưa có solve</div>
+<div class="controls">
+  <button onclick="clearHistory()">Xóa hết lịch sử</button>
 </div>
 
 </div>
 
 
-<!-- RUBIK 6 MẶT -->
+<!-- MINI RUBIK -->
 
-<div class="rubikBox">
+<div id="cubeBox">
+  <div id="cube">
 
-<div class="rubikTitle">SCRAMBLE VIEW</div>
+    <div class="face U" data-face="U"></div>
+    <div class="face L" data-face="L"></div>
+    <div class="face F" data-face="F"></div>
+    <div class="face R" data-face="R"></div>
+    <div class="face B" data-face="B"></div>
+    <div class="face D" data-face="D"></div>
 
-<div class="rubik">
-
-<div class="face faceU" id="U"></div>
-<div class="face faceL" id="L"></div>
-<div class="face faceF" id="F"></div>
-<div class="face faceR" id="R"></div>
-<div class="face faceB" id="B"></div>
-<div class="face faceD" id="D"></div>
-
-</div>
-
+  </div>
 </div>
 
 
 <script>
 
-const timer = document.getElementById("timer");
-const startButton = document.getElementById("start");
-const scrambleElement = document.getElementById("scramble");
+/* =========================
+   TIMER
+========================= */
 
+const timerElement = document.getElementById("timer");
+const scrambleElement = document.getElementById("scramble");
+const messageElement = document.getElementById("message");
 const countElement = document.getElementById("count");
 const pbElement = document.getElementById("pb");
 const ao5Element = document.getElementById("ao5");
 const ao12Element = document.getElementById("ao12");
+const historyElement = document.getElementById("history");
 
-const solvesElement = document.getElementById("solves");
-const clearAllButton = document.getElementById("clearAll");
-
+let running = false;
+let ready = false;
 let startTime = 0;
 let timerInterval = null;
-let running = false;
 
-let solveHistory =
-JSON.parse(localStorage.getItem("rubikSolveHistory")) || [];
 
-let currentScramble = "";
+/* =========================
+   HISTORY
+========================= */
+
+let solves = JSON.parse(localStorage.getItem("rubikSolves") || "[]");
 
 
 /* =========================
@@ -317,270 +338,281 @@ let currentScramble = "";
 const faces = ["R","L","U","D","F","B"];
 const suffixes = ["","'","2"];
 
+function getAxis(face) {
+
+  if (face === "R" || face === "L") return "x";
+  if (face === "U" || face === "D") return "y";
+  return "z";
+}
+
 function generateScramble() {
 
   let result = [];
-  let lastFace = "";
+  let lastAxis = "";
 
   while (result.length < 20) {
 
     const face =
       faces[Math.floor(Math.random() * faces.length)];
 
-    if (face === lastFace) continue;
+    const axis = getAxis(face);
+
+    if (axis === lastAxis) continue;
 
     const suffix =
       suffixes[Math.floor(Math.random() * suffixes.length)];
 
     result.push(face + suffix);
 
-    lastFace = face;
+    lastAxis = axis;
   }
 
   return result.join(" ");
 }
 
+let currentScramble = "";
+
+
+/* =========================
+   CUBE STICKERS
+========================= */
+
+const cube = {
+  U: Array(9).fill("white"),
+  R: Array(9).fill("red"),
+  F: Array(9).fill("green"),
+  D: Array(9).fill("yellow"),
+  L: Array(9).fill("orange"),
+  B: Array(9).fill("blue")
+};
+
+
+/*
+  Reset cube về trạng thái solved
+*/
+
+function resetCube() {
+
+  cube.U = Array(9).fill("white");
+  cube.R = Array(9).fill("red");
+  cube.F = Array(9).fill("green");
+  cube.D = Array(9).fill("yellow");
+  cube.L = Array(9).fill("orange");
+  cube.B = Array(9).fill("blue");
+
+}
+
+
+/*
+  Xoay một mặt clockwise.
+*/
+
+function rotateFace(face) {
+
+  const old = cube[face].slice();
+
+  cube[face][0] = old[6];
+  cube[face][1] = old[3];
+  cube[face][2] = old[0];
+  cube[face][3] = old[7];
+  cube[face][4] = old[4];
+  cube[face][5] = old[1];
+  cube[face][6] = old[8];
+  cube[face][7] = old[5];
+  cube[face][8] = old[2];
+
+}
+
+
+/*
+  Move chuẩn.
+*/
+
+function moveR() {
+
+  rotateFace("R");
+
+  let temp = cube.U.slice(2,9).filter((_,i)=>i%3===0);
+
+  const u = [cube.U[2],cube.U[5],cube.U[8]];
+  const f = [cube.F[2],cube.F[5],cube.F[8]];
+  const d = [cube.D[2],cube.D[5],cube.D[8]];
+  const b = [cube.B[6],cube.B[3],cube.B[0]];
+
+  [cube.U[2],cube.U[5],cube.U[8]] = b;
+  [cube.F[2],cube.F[5],cube.F[8]] = u;
+  [cube.D[2],cube.D[5],cube.D[8]] = f;
+  [cube.B[6],cube.B[3],cube.B[0]] = d;
+}
+
+
+function moveL() {
+
+  rotateFace("L");
+
+  const u = [cube.U[0],cube.U[3],cube.U[6]];
+  const f = [cube.F[0],cube.F[3],cube.F[6]];
+  const d = [cube.D[0],cube.D[3],cube.D[6]];
+  const b = [cube.B[8],cube.B[5],cube.B[2]];
+
+  [cube.U[0],cube.U[3],cube.U[6]] = f;
+  [cube.F[0],cube.F[3],cube.F[6]] = d;
+  [cube.D[0],cube.D[3],cube.D[6]] = b;
+  [cube.B[8],cube.B[5],cube.B[2]] = u;
+}
+
+
+function moveU() {
+
+  rotateFace("U");
+
+  const f = cube.F.slice(0,3);
+  const r = cube.R.slice(0,3);
+  const b = cube.B.slice(0,3);
+  const l = cube.L.slice(0,3);
+
+  cube.F.splice(0,3,...l);
+  cube.R.splice(0,3,...f);
+  cube.B.splice(0,3,...r);
+  cube.L.splice(0,3,...b);
+}
+
+
+function moveD() {
+
+  rotateFace("D");
+
+  const f = cube.F.slice(6,9);
+  const r = cube.R.slice(6,9);
+  const b = cube.B.slice(6,9);
+  const l = cube.L.slice(6,9);
+
+  cube.F.splice(6,3,...r);
+  cube.L.splice(6,3,...f);
+  cube.B.splice(6,3,...l);
+  cube.R.splice(6,3,...b);
+}
+
+
+function moveF() {
+
+  rotateFace("F");
+
+  const u = [cube.U[6],cube.U[7],cube.U[8]];
+  const r = [cube.R[0],cube.R[3],cube.R[6]];
+  const d = [cube.D[2],cube.D[1],cube.D[0]];
+  const l = [cube.L[8],cube.L[5],cube.L[2]];
+
+  [cube.U[6],cube.U[7],cube.U[8]] = l;
+  [cube.R[0],cube.R[3],cube.R[6]] = u;
+  [cube.D[2],cube.D[1],cube.D[0]] = r;
+  [cube.L[8],cube.L[5],cube.L[2]] = d;
+}
+
+
+function moveB() {
+
+  rotateFace("B");
+
+  const u = [cube.U[0],cube.U[1],cube.U[2]];
+  const r = [cube.R[2],cube.R[5],cube.R[8]];
+  const d = [cube.D[8],cube.D[7],cube.D[6]];
+  const l = [cube.L[6],cube.L[3],cube.L[0]];
+
+  [cube.U[0],cube.U[1],cube.U[2]] = r;
+  [cube.R[2],cube.R[5],cube.R[8]] = d;
+  [cube.D[8],cube.D[7],cube.D[6]] = l;
+  [cube.L[6],cube.L[3],cube.L[0]] = u;
+}
+
+
+/* =========================
+   APPLY SCRAMBLE
+========================= */
+
+function applyBasicMove(face) {
+
+  if (face === "R") moveR();
+  if (face === "L") moveL();
+  if (face === "U") moveU();
+  if (face === "D") moveD();
+  if (face === "F") moveF();
+  if (face === "B") moveB();
+
+}
+
+
+function applyMove(move) {
+
+  const face = move[0];
+
+  let turns = 1;
+
+  if (move.includes("2")) {
+    turns = 2;
+  }
+
+  if (move.includes("'")) {
+    turns = 3;
+  }
+
+  for (let i = 0; i < turns; i++) {
+    applyBasicMove(face);
+  }
+
+}
+
+
+/* =========================
+   RENDER CUBE
+========================= */
+
+function renderCube() {
+
+  document.querySelectorAll(".face").forEach(faceElement => {
+
+    const face = faceElement.dataset.face;
+
+    faceElement.innerHTML = "";
+
+    cube[face].forEach(color => {
+
+      const sticker = document.createElement("div");
+
+      sticker.className = "sticker " + color;
+
+      faceElement.appendChild(sticker);
+
+    });
+
+  });
+
+}
+
+
+/* =========================
+   NEW SCRAMBLE
+========================= */
+
 function newScramble() {
+
+  resetCube();
 
   currentScramble = generateScramble();
 
+  const moves = currentScramble.split(" ");
+
+  moves.forEach(move => applyMove(move));
+
   scrambleElement.textContent = currentScramble;
 
-  drawRubik();
+  renderCube();
+
 }
 
 
 /* =========================
-   TIME FORMAT
-========================= */
-
-function formatTime(seconds) {
-
-  if (seconds === "DNF") {
-    return "DNF";
-  }
-
-  return seconds.toFixed(2);
-}
-
-
-/* =========================
-   AVERAGE
-========================= */
-
-function calculateAverage(number) {
-
-  if (solveHistory.length < number) {
-    return "--";
-  }
-
-  const recent =
-    solveHistory.slice(-number);
-
-  if (recent.some(x => x.time === "DNF")) {
-    return "DNF";
-  }
-
-  let times =
-    recent.map(x => x.time);
-
-  times.sort((a,b) => a-b);
-
-  times.shift();
-  times.pop();
-
-  const average =
-    times.reduce((a,b) => a+b, 0) / times.length;
-
-  return average.toFixed(2);
-}
-
-
-/* =========================
-   STATS
-========================= */
-
-function updateStats() {
-
-  countElement.textContent =
-    solveHistory.length;
-
-  const validTimes =
-    solveHistory
-      .filter(x => x.time !== "DNF")
-      .map(x => x.time);
-
-  if (validTimes.length === 0) {
-
-    pbElement.textContent = "--";
-
-  } else {
-
-    pbElement.textContent =
-      Math.min(...validTimes).toFixed(2);
-  }
-
-  ao5Element.textContent =
-    calculateAverage(5);
-
-  ao12Element.textContent =
-    calculateAverage(12);
-}
-
-
-/* =========================
-   HISTORY
-========================= */
-
-function renderHistory() {
-
-  solvesElement.innerHTML = "";
-
-  if (solveHistory.length === 0) {
-
-    solvesElement.innerHTML =
-      '<div class="empty">Chưa có solve</div>';
-
-    return;
-  }
-
-  solveHistory
-    .slice()
-    .reverse()
-    .forEach((solve, reverseIndex) => {
-
-      const index =
-        solveHistory.length - reverseIndex - 1;
-
-      const box =
-        document.createElement("div");
-
-      box.className = "solve";
-
-      box.innerHTML = `
-
-        <div class="solveTop">
-
-          <span class="solveNumber">
-            #${index + 1}
-          </span>
-
-          <span class="solveTime">
-            ${formatTime(solve.time)}
-          </span>
-
-        </div>
-
-        <div class="scrambleHistory">
-          ${solve.scramble}
-        </div>
-
-        <div class="buttons">
-
-          <button onclick="plusTwo(${index})">
-            +2
-          </button>
-
-          <button onclick="setDNF(${index})">
-            DNF
-          </button>
-
-          <button onclick="deleteSolve(${index})">
-            🗑 Xóa
-          </button>
-
-        </div>
-      `;
-
-      solvesElement.appendChild(box);
-
-    });
-}
-
-
-/* =========================
-   +2
-========================= */
-
-function plusTwo(index) {
-
-  if (solveHistory[index].time === "DNF") {
-    return;
-  }
-
-  solveHistory[index].time += 2;
-
-  saveData();
-
-  renderHistory();
-
-  updateStats();
-}
-
-
-/* =========================
-   DNF
-========================= */
-
-function setDNF(index) {
-
-  solveHistory[index].time = "DNF";
-
-  saveData();
-
-  renderHistory();
-
-  updateStats();
-}
-
-
-/* =========================
-   DELETE ONE
-========================= */
-
-function deleteSolve(index) {
-
-  solveHistory.splice(index, 1);
-
-  saveData();
-
-  renderHistory();
-
-  updateStats();
-}
-
-
-/* =========================
-   DELETE ALL
-========================= */
-
-clearAllButton.addEventListener("click", () => {
-
-  if (solveHistory.length === 0) {
-    return;
-  }
-
-  const confirmDelete =
-    confirm("Xóa toàn bộ lịch sử solve?");
-
-  if (!confirmDelete) {
-    return;
-  }
-
-  solveHistory = [];
-
-  saveData();
-
-  renderHistory();
-
-  updateStats();
-
-  timer.textContent = "0.00";
-});
-
-
-/* =========================
-   TIMER
+   TIMER START
 ========================= */
 
 function startTimer() {
@@ -589,23 +621,26 @@ function startTimer() {
 
   running = true;
 
-  startTime =
-    performance.now();
+  startTime = performance.now();
 
-  startButton.textContent = "STOP";
+  messageElement.textContent = "Đang chạy...";
 
-  timerInterval =
-    setInterval(() => {
+  timerInterval = setInterval(() => {
 
-      const elapsed =
-        (performance.now() - startTime) / 1000;
+    const elapsed =
+      (performance.now() - startTime) / 1000;
 
-      timer.textContent =
-        elapsed.toFixed(2);
+    timerElement.textContent =
+      elapsed.toFixed(2);
 
-    }, 10);
+  }, 10);
+
 }
 
+
+/* =========================
+   TIMER STOP
+========================= */
 
 function stopTimer() {
 
@@ -618,106 +653,381 @@ function stopTimer() {
   const finalTime =
     (performance.now() - startTime) / 1000;
 
-  timer.textContent =
+  timerElement.textContent =
     finalTime.toFixed(2);
 
-  startButton.textContent = "START";
+  messageElement.textContent =
+    "Giữ Space / giữ màn hình → thả để solve tiếp";
 
-
-  solveHistory.push({
-
+  solves.push({
     time: finalTime,
-
-    scramble: currentScramble
-
+    scramble: currentScramble,
+    penalty: 0
   });
-
 
   saveData();
 
   renderHistory();
 
-  updateStats();
-
   newScramble();
+
 }
 
 
-/* CHỈ NÚT START ĐIỀU KHIỂN TIMER */
+/* =========================
+   KEYBOARD
+========================= */
 
-startButton.addEventListener("click", () => {
+document.addEventListener("keydown", event => {
+
+  if (event.code !== "Space") return;
+
+  event.preventDefault();
+
+  if (event.repeat) return;
 
   if (running) {
 
     stopTimer();
 
-  } else {
+    return;
+  }
+
+  ready = true;
+
+  messageElement.textContent =
+    "Thả Space để bắt đầu";
+
+});
+
+
+document.addEventListener("keyup", event => {
+
+  if (event.code !== "Space") return;
+
+  event.preventDefault();
+
+  if (!running && ready) {
 
     startTimer();
 
   }
 
+  ready = false;
+
 });
 
 
 /* =========================
-   SAVE
+   TOUCH
+========================= */
+
+let touchReady = false;
+
+document.addEventListener("touchstart", event => {
+
+  if (event.target.closest("button")) return;
+
+  event.preventDefault();
+
+  if (running) return;
+
+  touchReady = true;
+
+  messageElement.textContent =
+    "Thả tay để bắt đầu";
+
+}, {passive:false});
+
+
+document.addEventListener("touchend", event => {
+
+  if (event.target.closest("button")) return;
+
+  event.preventDefault();
+
+  if (running) {
+
+    stopTimer();
+
+    return;
+
+  }
+
+  if (touchReady) {
+
+    startTimer();
+
+  }
+
+  touchReady = false;
+
+}, {passive:false});
+
+
+/* =========================
+   DATA
 ========================= */
 
 function saveData() {
 
   localStorage.setItem(
-    "rubikSolveHistory",
-    JSON.stringify(solveHistory)
+    "rubikSolves",
+    JSON.stringify(solves)
   );
 
 }
 
 
 /* =========================
-   RUBIK VIEW
+   TIME DISPLAY
 ========================= */
 
-const colors = {
-  U: "white",
-  D: "yellow",
-  F: "green",
-  B: "blue",
-  R: "red",
-  L: "orange"
-};
+function displaySolve(solve) {
 
-
-function drawFace(face) {
-
-  const element =
-    document.getElementById(face);
-
-  element.innerHTML = "";
-
-  for (let i = 0; i < 9; i++) {
-
-    const sticker =
-      document.createElement("div");
-
-    sticker.className =
-      "sticker " + colors[face];
-
-    element.appendChild(sticker);
-
+  if (solve.penalty === "DNF") {
+    return "DNF";
   }
+
+  let time = solve.time;
+
+  if (solve.penalty === 2) {
+    time += 2;
+  }
+
+  return time.toFixed(2) +
+    (solve.penalty === 2 ? "+" : "");
 
 }
 
 
-function drawRubik() {
+/* =========================
+   PB
+========================= */
 
-  drawFace("U");
-  drawFace("L");
-  drawFace("F");
-  drawFace("R");
-  drawFace("B");
-  drawFace("D");
+function updateStats() {
+
+  countElement.textContent = solves.length;
+
+  const validTimes = solves
+    .filter(s => s.penalty !== "DNF")
+    .map(s => s.time + (s.penalty === 2 ? 2 : 0));
+
+  if (validTimes.length === 0) {
+
+    pbElement.textContent = "--";
+
+    return;
+  }
+
+  pbElement.textContent =
+    Math.min(...validTimes).toFixed(2);
+
+}
+
+
+/* =========================
+   AVERAGES
+========================= */
+
+function averageOfLast(n) {
+
+  if (solves.length < n) return "--";
+
+  const recent = solves.slice(-n);
+
+  if (recent.some(s => s.penalty === "DNF")) {
+
+    return "DNF";
+  }
+
+  let times = recent.map(s =>
+    s.time + (s.penalty === 2 ? 2 : 0)
+  );
+
+  times.sort((a,b) => a-b);
+
+  /*
+    Official-style average:
+    remove fastest and slowest
+  */
+
+  times.shift();
+  times.pop();
+
+  const avg =
+    times.reduce((a,b) => a+b,0) / times.length;
+
+  return avg.toFixed(2);
+
+}
+
+
+function updateAverages() {
+
+  ao5Element.textContent =
+    averageOfLast(5);
+
+  ao12Element.textContent =
+    averageOfLast(12);
+
+}
+
+
+/* =========================
+   HISTORY
+========================= */
+
+function renderHistory() {
+
+  historyElement.innerHTML = "";
+
+  if (solves.length === 0) {
+
+    historyElement.innerHTML =
+      '<div class="empty">Chưa có solve</div>';
+
+    updateStats();
+    updateAverages();
+
+    return;
+  }
+
+  solves.slice().reverse().forEach((solve, reverseIndex) => {
+
+    const realIndex =
+      solves.length - 1 - reverseIndex;
+
+    const row =
+      document.createElement("div");
+
+    row.className = "solve";
+
+    row.innerHTML = `
+
+      <div class="solve-top">
+
+        <div>
+          <span class="solve-number">
+            #${realIndex + 1}
+          </span>
+
+          <span class="solve-time">
+            ${displaySolve(solve)}
+          </span>
+        </div>
+
+        <div class="solve-buttons">
+
+          <button onclick="plusTwo(${realIndex})">
+            +2
+          </button>
+
+          <button onclick="dnf(${realIndex})">
+            DNF
+          </button>
+
+          <button onclick="deleteSolve(${realIndex})">
+            Xóa
+          </button>
+
+        </div>
+
+      </div>
+
+      <div class="solve-scramble">
+        ${solve.scramble}
+      </div>
+    `;
+
+    historyElement.appendChild(row);
+
+  });
+
+  updateStats();
+  updateAverages();
+
+}
+
+
+/* =========================
+   +2
+========================= */
+
+function plusTwo(index) {
+
+  if (solves[index].penalty === "DNF") return;
+
+  if (solves[index].penalty === 2) {
+
+    solves[index].penalty = 0;
+
+  } else {
+
+    solves[index].penalty = 2;
+
+  }
+
+  saveData();
+
+  renderHistory();
+
+}
+
+
+/* =========================
+   DNF
+========================= */
+
+function dnf(index) {
+
+  if (solves[index].penalty === "DNF") {
+
+    solves[index].penalty = 0;
+
+  } else {
+
+    solves[index].penalty = "DNF";
+
+  }
+
+  saveData();
+
+  renderHistory();
+
+}
+
+
+/* =========================
+   DELETE ONE
+========================= */
+
+function deleteSolve(index) {
+
+  solves.splice(index, 1);
+
+  saveData();
+
+  renderHistory();
+
+}
+
+
+/* =========================
+   DELETE ALL
+========================= */
+
+function clearHistory() {
+
+  if (solves.length === 0) return;
+
+  if (!confirm("Xóa toàn bộ lịch sử solve?")) return;
+
+  solves = [];
+
+  saveData();
+
+  renderHistory();
 
 }
 
@@ -726,11 +1036,8 @@ function drawRubik() {
    START
 ========================= */
 
-updateStats();
-
-renderHistory();
-
 newScramble();
+renderHistory();
 
 </script>
 
